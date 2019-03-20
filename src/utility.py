@@ -34,7 +34,11 @@ def checkResponse(response, command_name='required package(s)', verbose=False):
                 print('Installing', command_name)
             flag = installRequirements()  # flag will be True on success
             if flag:
-                return rerun(command=response.args)  # returns True on success
+                if getConsent('Do you want to rerun '
+                              + command_name
+                              + ' ? Y/N\t'):
+                    # returns True on success
+                    return rerun(command=response.args)
         return False
     else:
         print("echo Something else happened.")
