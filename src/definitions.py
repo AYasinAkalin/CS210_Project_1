@@ -18,5 +18,8 @@ def init():
     global DIR_SRC
     DIR_SRC = Path(__file__).parent
 
+    global DIR_DATA
+    DIR_DATA = DIR_SRC / 'data'
+
     # Changes active directory to project directory
     os.chdir(DIR_SRC)
