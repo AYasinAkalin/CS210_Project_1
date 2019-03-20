@@ -1,2 +1,1 @@
-NOTEBOOK="notebook.ipynb"
-jupyter notebook $NOTEBOOK
+jupyter notebook "../notebooks/aliyasin_akalin_indv_proj.ipynb"
