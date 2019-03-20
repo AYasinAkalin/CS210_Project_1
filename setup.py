@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='cs210-project1-ayasin',
-    version='0.0.3b',
+    version='0.0.4',
     author="Ali Yasin Akalın",
     author_email="ayasinakalin@sabanciuniv.edu",
     description="",
