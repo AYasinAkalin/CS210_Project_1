@@ -14,3 +14,6 @@ fnc.fillDistrict(df, "dropoff_district", dl)
 # ''' Save Updated data frame
 fnc.saveDataFrame(df, 'taxi-trips_2'.csv)
 # '''
+
+for d in ['pickup_district', 'dropoff_district']:
+    fnc.printPopularDistrict(df, d)
