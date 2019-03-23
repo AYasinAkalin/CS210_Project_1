@@ -96,3 +96,37 @@ def fillDistances(data_frame, distance_col, distance_list, verbose=False):
     if verbose:
         print("Distances are filled")
     return data_frame
+
+
+def getDayTime(pickup_times):
+    time_of_day = []
+    time_dict = {7: 'rush hour morning',
+                 8: 'rush hour morning',
+                 9: 'afternoon',
+                 10: 'afternoon',
+                 11: 'afternoon',
+                 12: 'afternoon',
+                 13: 'afternoon',
+                 14: 'afternoon',
+                 15: 'afternoon',
+                 16: 'rush hour evening',
+                 17: 'rush hour evening',
+                 18: 'evening',
+                 19: 'evening',
+                 20: 'evening',
+                 21: 'evening',
+                 22: 'evening',
+                 23: 'late night',
+                 0: 'late night',
+                 1: 'late night',
+                 2: 'late night',
+                 3: 'late night',
+                 4: 'late night',
+                 5: 'late night',
+                 6: 'late night'}
+    for time in pickup_times:
+        time = time.split()[1]
+        time = time.split(':', maxsplit=1)[0]
+        time = int(time)
+        time_of_day.append(time_dict[time])
+    return time_of_day
