@@ -1,3 +1,16 @@
 import functions as fnc
 df = fnc.openDataFile("taxi-trips.csv")
 fnc.showInfo(df)
+
+pickup_coords = fnc.getCoords(df.pickup_latitude, df.pickup_longitude)
+drop_coords = fnc.getCoords(df.dropoff_latitude, df.dropoff_longitude)
+
+dl = fnc.getDistricts(pickup_coords)
+fnc.fillDistrict(df, "pickup_district", dl)
+
+dl = fnc.getDistricts(drop_coords)
+fnc.fillDistrict(df, "dropoff_district", dl)
+
+# ''' Save Updated data frame
+fnc.saveDataFrame(df, 'taxi-trips_2'.csv)
+# '''
