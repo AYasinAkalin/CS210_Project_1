@@ -20,3 +20,5 @@ for d in ['pickup_district', 'dropoff_district']:
 
 dl = fnc.getDistances(pickup_coords, drop_coords)
 df['distance'] = dl
+
+df['time_of_day'] = fnc.getDayTime(df.pickup_datetime)
