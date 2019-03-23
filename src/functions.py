@@ -75,3 +75,9 @@ def fillDistrict(data_frame, district_col, districts_list, verbose=False):
     if verbose:
         print(len(districts_list), "districts are filled")
     return data_frame
+
+
+def printPopularDistrict(data_frame, district_column_name, rows=5):
+    d = district_column_name
+    printInfo(data_frame[d].value_counts().head(rows),
+              'Most popular '+str(rows)+' districts.')
