@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import revGeocode
+import distance as dist
 
 
 def openDataFile(file_name):
@@ -81,3 +82,17 @@ def printPopularDistrict(data_frame, district_column_name, rows=5):
     d = district_column_name
     printInfo(data_frame[d].value_counts().head(rows),
               'Most popular '+str(rows)+' districts.')
+
+
+def getDistances(coordinate_list_1, coordinate_list_2, verbose=False):
+    distances = []
+    for c1, c2 in zip(coordinate_list_1, coordinate_list_2):
+        distances.append(dist.measureDist(c1, c2))
+    return distances
+
+
+def fillDistances(data_frame, distance_col, distance_list, verbose=False):
+    data_frame[distance_col] = distance_list
+    if verbose:
+        print("Distances are filled")
+    return data_frame
