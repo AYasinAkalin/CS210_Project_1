@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import revGeocode
 
 
 def openDataFile(file_name):
@@ -40,3 +41,10 @@ def addColumn(data_frame, column_name, default_value=np.nan):
 
 def dealNanValues(data_frame):
     printInfo(data_frame.isnull().sum())
+
+
+def getCoords(lat_col, lng_col):
+    coordinates = []
+    for lat, lng in zip(lat_col, lng_col):
+        coordinates.append(revGeocode.makeCoordinateTuple(lat, lng))
+    return coordinates
