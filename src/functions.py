@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import revGeocode
+import distance as dist
 
 
 def openDataFile(file_name):
@@ -40,3 +42,91 @@ def addColumn(data_frame, column_name, default_value=np.nan):
 
 def dealNanValues(data_frame):
     printInfo(data_frame.isnull().sum())
+
+
+def getCoords(lat_col, lng_col):
+    coordinates = []
+    for lat, lng in zip(lat_col, lng_col):
+        coordinates.append(revGeocode.makeCoordinateTuple(lat, lng))
+    return coordinates
+
+
+def getDistricts(coordinate_list, verbose=False):
+    districts = []
+    if verbose:
+        print("There are", len(coordinate_list), "coordinates to work on.")
+        i = 0
+    for instance in coordinate_list:
+        result = revGeocode.getResult(instance)
+        district = revGeocode.getDistrictName(result)[0]
+        districts.append(district)
+        if verbose:
+            i += 1
+            if i % 500 == 0:
+                print('500 more rows are done.')
+                if i == len(districts):
+                    print("In total:", len(districts))
+    if verbose:
+        print(len(districts), "districts are taken with API")
+    return districts
+
+
+def fillDistrict(data_frame, district_col, districts_list, verbose=False):
+    data_frame[district_col] = districts_list
+    if verbose:
+        print(len(districts_list), "districts are filled")
+    return data_frame
+
+
+def printPopularDistrict(data_frame, district_column_name, rows=5):
+    d = district_column_name
+    printInfo(data_frame[d].value_counts().head(rows),
+              'Most popular '+str(rows)+' districts.')
+
+
+def getDistances(coordinate_list_1, coordinate_list_2, verbose=False):
+    distances = []
+    for c1, c2 in zip(coordinate_list_1, coordinate_list_2):
+        distances.append(dist.measureDist(c1, c2))
+    return distances
+
+
+def fillDistances(data_frame, distance_col, distance_list, verbose=False):
+    data_frame[distance_col] = distance_list
+    if verbose:
+        print("Distances are filled")
+    return data_frame
+
+
+def getDayTime(pickup_times):
+    time_of_day = []
+    time_dict = {7: 'rush hour morning',
+                 8: 'rush hour morning',
+                 9: 'afternoon',
+                 10: 'afternoon',
+                 11: 'afternoon',
+                 12: 'afternoon',
+                 13: 'afternoon',
+                 14: 'afternoon',
+                 15: 'afternoon',
+                 16: 'rush hour evening',
+                 17: 'rush hour evening',
+                 18: 'evening',
+                 19: 'evening',
+                 20: 'evening',
+                 21: 'evening',
+                 22: 'evening',
+                 23: 'late night',
+                 0: 'late night',
+                 1: 'late night',
+                 2: 'late night',
+                 3: 'late night',
+                 4: 'late night',
+                 5: 'late night',
+                 6: 'late night'}
+    for time in pickup_times:
+        time = time.split()[1]
+        time = time.split(':', maxsplit=1)[0]
+        time = int(time)
+        time_of_day.append(time_dict[time])
+    return time_of_day
