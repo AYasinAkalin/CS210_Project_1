@@ -17,3 +17,6 @@ fnc.saveDataFrame(df, 'taxi-trips_2'.csv)
 
 for d in ['pickup_district', 'dropoff_district']:
     fnc.printPopularDistrict(df, d)
+
+dl = fnc.getDistances(pickup_coords, drop_coords)
+df['distance'] = dl
